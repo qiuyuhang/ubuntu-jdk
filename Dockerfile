@@ -4,18 +4,8 @@ MAINTAINER qiuyuhang <imqyh@qq.com>
 
 WORKDIR /root
 
-COPY sources.list /root/
+RUN apt update && apt install -y openssh-server openjdk-8-jdk wget nano maven --fix-missing
 
-RUN mv sources.list /etc/apt/  && \
-    apt update && apt install -y openssh-server wget nano
-
-RUN wget --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie;" http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.tar.gz
-
-RUN tar -xzvf jdk-8u151-linux-x64.tar.gz && \
-    rm jdk-8u151-linux-x64.tar.gz && \
-    mv jdk1.8.0_151/ /opt/jdk
-
-ENV JAVA_HOME=/opt/jdk
-ENV PATH=$PATH:/opt/jdk/bin
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 CMD [ "sh", "-c", "service ssh start; bash"]
